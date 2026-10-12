@@ -6,6 +6,10 @@ from typing import Any, Dict, List
 import requests
 from bs4 import BeautifulSoup
 
+import sys
+from dotenv import load_dotenv
+
+
 WINDOWS_CHROME = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.3"
 STREET_TYPES = [" Ave", " Rd", " St", " Pl", " Blvd", " Dr", " Pkwy", " Ln"]
 
@@ -82,7 +86,7 @@ def bounding_box(geometry: Dict[str,Any]) -> Dict[str,Any]:
             max_lon, max_lat = max_pt
             min_pt = [min(lon, min_lon), min(lat, min_lat)]
             max_pt = [max(lon, max_lon), max(lat, max_lat)]
-    
+
     return {
         "type": "MultiPoint",
         "coordinates": [min_pt, max_pt],
@@ -101,3 +105,8 @@ def ascii_only(s: str, alphabet="abcdefghijklmnopqrstuvwxyz", space="_") -> str:
         if c in alphabet:
             s_out += c
     return s_out
+
+def test_env():
+    load_dotenv()
+    key = os.environ.get("GEOAPIFY_API_KEY")
+    print(key)
